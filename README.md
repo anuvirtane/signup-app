@@ -15,14 +15,14 @@ Basic users can sign up for course setup and teardown and modify their own signu
 - displays list of courses to sign up to
 - by clicking a course, an Information page and an Edit signup page for that course opens
 
-### Edit signup page
+### Edit signup page (for each course)
 - contains options to sign up for setup or teardown for this specific course and modify this information
 - Input fields:
     - time of arrival, days spent and time of leaving
     - name and contact information
     - car or no car
 
-### Information page
+### Information page (for each course)
 - shows how many people have signed up and for what times
 - shows user's own signup information for this course
 - Admins only: shows names of people that signed up
