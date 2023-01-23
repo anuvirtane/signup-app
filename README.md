@@ -34,3 +34,33 @@ Basic users can sign up for course setup and teardown and modify their own signu
 ### Register page
 - Register to be a basic user, get rights to login
 
+## Run application locally
+
+Clone this repository. Go to the local project repository's root folder `signup-app`. Create `.env` file in root folder. Add following contents to `.env`:
+
+
+    DATABASE_URL=<local-address-of-database>
+    SECRET_KEY=<secret-key-you-made-up>
+
+Create virtual environment and activate it:
+
+    $ python3 -m venv venv
+    $ source venv/bin/activate
+
+Install requirements:
+
+    $ pip install -r ./requirements.txt
+
+Start database in separate terminal window:
+
+    $ start-pg.sh
+
+Define database schema:
+
+    $ psql < schema.sql
+
+Run application locally
+
+    $ flask run
+
+
