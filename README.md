@@ -28,7 +28,7 @@ Basic users can sign up for course setup and teardown and modify their own signu
 - shows how many people have signed up and for what times
 - shows user's own signup information for this course
 - Admins only: shows names of people that signed up
-- will be added before 5.2., except Admin parts later
+- will be added before 5.2., except Admin parts before 19.2.
 
 ### Login page
 - After login basic user can view and modify one's signup information
