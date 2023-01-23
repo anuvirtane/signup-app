@@ -10,10 +10,11 @@ Basic users can sign up for course setup and teardown and modify their own signu
 
 ## Pages
 
-### Courses page
+### Courses page 
 
 - displays list of courses to sign up to
 - by clicking a course, an Information page and an Edit signup page for that course opens
+- will be added before 5.2.
 
 ### Edit signup page (for each course)
 - contains options to sign up for setup or teardown for this specific course and modify this information
@@ -21,18 +22,32 @@ Basic users can sign up for course setup and teardown and modify their own signu
     - time of arrival, days spent and time of leaving
     - name and contact information
     - car or no car
+    - will be added before 5.2.
 
 ### Information page (for each course)
 - shows how many people have signed up and for what times
 - shows user's own signup information for this course
 - Admins only: shows names of people that signed up
+- will be added before 5.2., except Admin parts later
 
 ### Login page
 - After login basic user can view and modify one's signup information
 - After login admin can modify course information and view names and contact information of people who signed up
+- will be added before 5.2.
 
 ### Register page
 - Register to be a basic user, get rights to login
+- will be added before 5.2.
+
+### Add course page
+- Admin only! 
+- Add new course
+- will be added before 19.2.
+
+### Register admin page
+- Register to be admin, get admin rights
+- Will be added only if enough time
+
 
 ## Run application locally
 
