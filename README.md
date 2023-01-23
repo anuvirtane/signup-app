@@ -3,6 +3,7 @@
 In order to organise 10 day residential courses, volunteers are needed at rented course sites for setup and teardown. This webapp enables people to sign up for these activities.
 
 ## User roles
+
 ### Admin
 Admins can add and modify course data
 ### Basic user
