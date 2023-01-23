@@ -31,3 +31,6 @@ Basic users can sign up for course setup and teardown and modify their own signu
 - After login basic user can view and modify one's signup information
 - After login admin can modify course information and view names and contact information of people who signed up
 
+### Register page
+- Register to be a basic user, get rights to login
+
