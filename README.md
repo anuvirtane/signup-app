@@ -23,6 +23,8 @@ Basic users can sign up for course setup and teardown and modify their own signu
     - time of arrival, days spent and time of leaving
     - name and contact information
     - car or no car
+    - if car, what time arrives and leaves and from where and where to
+    - if no car, does wish lift or not, if yes, from where and where to
     - will be added before 5.2.
 
 ### Information page (for each course)
@@ -79,4 +81,8 @@ Run application locally
 
     $ flask run
 
+
+## Database diagram
+
+![database-diagram](images/dbdiagram.png)
 
