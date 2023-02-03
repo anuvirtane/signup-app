@@ -82,7 +82,7 @@ Run application locally
     $ flask run
 
 
-## Database diagram
+## Preliminary database diagram
 
 ![database-diagram](images/dbdiagram.png)
 
