@@ -1,6 +1,13 @@
 
-MOICCU
-<hr>
+course: {{ course.day_zero.strftime("%d.%m.%Y") }} - {{ course.day_eleven.strftime("%d.%m.%Y") }} 
 
 <hr>
-<a href="/">Takaisin</a>
+{% for workday in course %}
+{{ workday.strftime("%d.%m.%Y") }}
+<a href="/course/">sign up</a>  <br>
+<hr>
+{% endfor %}
+
+<hr>
+<a href="/courses">All courses</a>
+<a href="/logout">Log out</a>

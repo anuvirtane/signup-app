@@ -43,10 +43,10 @@ def courses():
 
 @app.route("/course/<int:id>")
 def course(id):
-    sql = "SELECT id FROM courses WHERE id=:id"
+    sql = "SELECT day_minus_two, day_minus_one, day_zero, day_ten, day_eleven FROM courses WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
-    choices = result.fetchone()[0]
-    return render_template("course.html", id=id)
+    course = result.fetchone()
+    return render_template("course.html", id=id, course=course)
 
 
 
