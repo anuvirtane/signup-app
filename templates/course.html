@@ -1,13 +1,17 @@
 
+Tick the days you will participate in setup and/or teardown of 
 course: {{ course.day_zero.strftime("%d.%m.%Y") }} - {{ course.day_eleven.strftime("%d.%m.%Y") }} 
 
-<hr>
-{% for workday in course %}
-{{ workday.strftime("%d.%m.%Y") }}
-<a href="/course/">sign up</a>  <br>
-<hr>
-{% endfor %}
 
-<hr>
-<a href="/courses">All courses</a>
-<a href="/logout">Log out</a>
+
+<form action="/signup" method="POST">
+    {% for workday in course %}
+    <input type="checkbox" name="participation" value="{{ workday.strftime('%d.%m.%Y') }}">  {{ workday.strftime('%d.%m.%Y') }} <br>
+    {% endfor %}
+    <p>
+    <input type="submit" value="Send">
+    <input type="hidden" name="id" value="{{ id }}">
+    </form>
+    <hr>
+    <a href="/courses">All courses</a>
+    <a href="/logout">Log out</a>

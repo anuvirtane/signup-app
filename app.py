@@ -48,6 +48,29 @@ def course(id):
     course = result.fetchone()
     return render_template("course.html", id=id, course=course)
 
+@app.route("/signup/", methods=["POST"])
+def signup():
+    course_id = request.form["id"]
+    username = session["username"]
+    sql = "SELECT id FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username": username})
+    user_id = result.fetchone()[0]
+    if "participation" in request.form:
+        id = request.form["participation"] #participationin id
+        sql = "INSERT INTO participations (course_id, user_id) VALUES (:course_id, :user_id)"
+        db.session.execute(sql, {"course_id":course_id, "user_id":user_id })
+        db.session.commit()
+    return redirect("/participation/" + str(id))
+
+@app.route("/participation/<int:id>")
+def paritipation(id):
+    sql = "SELECT * FROM participations WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    participation_ids = result.fetchall()
+    return render_template("participation.html", participation_ids=participation_ids)
+
+
+
 
 
 @app.route("/logout")
