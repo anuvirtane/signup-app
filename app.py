@@ -34,6 +34,21 @@ def login():
         # else:
         #     return render_template("invalid.html")
 
+@app.route("/courses",methods=["GET"])
+def courses():
+    sql = "SELECT id, day_minus_two, day_minus_one, day_zero, day_ten, day_eleven FROM courses ORDER BY id DESC"
+    result = db.session.execute(sql)
+    courses = result.fetchall()
+    return render_template("courses.html", courses=courses)
+
+@app.route("/course/<int:id>")
+def course(id):
+    sql = "SELECT id FROM courses WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    choices = result.fetchone()[0]
+    return render_template("course.html", id=id)
+
+
 
 @app.route("/logout")
 def logout():
