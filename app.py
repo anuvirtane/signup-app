@@ -56,7 +56,7 @@ def signup():
     result = db.session.execute(sql, {"username": username})
     user_id = result.fetchone()[0]
     if "participation" in request.form:
-        id = request.form["participation"] #participationin id
+        id = request.form["id"] #participationin id, voi olla et tää meni väärin mut olkoon nyt
         sql = "INSERT INTO participations (course_id, user_id) VALUES (:course_id, :user_id)"
         db.session.execute(sql, {"course_id":course_id, "user_id":user_id })
         db.session.commit()
