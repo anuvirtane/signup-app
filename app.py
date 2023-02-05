@@ -55,15 +55,21 @@ def signup():
     sql = "SELECT id FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username": username})
     user_id = result.fetchone()[0]
+    #tässä vertaile päivämääriä, ja laita saapumispvm ja lähtöpvm tietokantaan
     if "participation" in request.form:
-        sql = "INSERT INTO participations (course_id, user_id) VALUES (:course_id, :user_id)"
-        db.session.execute(sql, {"course_id":course_id, "user_id":user_id })
+
+        participation_days = request.form.getlist("participation")
+        arrival_day = participation_days[0]
+        departure_day = participation_days[-1]
+
+        sql = "INSERT INTO participations (course_id, user_id, arrival_day, departure_day) VALUES (:course_id, :user_id, :arrival_day, :departure_day)"
+        db.session.execute(sql, {"course_id":course_id, "user_id":user_id, "arrival_day":arrival_day, "departure_day": departure_day })
         db.session.commit()
     return redirect("/participation/" + str(user_id))
 
 @app.route("/participation/<int:user_id>")
 def participation(user_id):
-    sql = "SELECT id, course_id FROM participations WHERE user_id=:user_id"
+    sql = "SELECT id, course_id, arrival_day, departure_day FROM participations WHERE user_id=:user_id"
     result = db.session.execute(sql, {"user_id":user_id})
     participation_data = result.fetchall()
     #tässä kohtaa hae kurssien pvm:t, jotta ne voisi näyttää participation.html:ssä
