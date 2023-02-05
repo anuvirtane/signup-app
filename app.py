@@ -56,18 +56,21 @@ def signup():
     result = db.session.execute(sql, {"username": username})
     user_id = result.fetchone()[0]
     if "participation" in request.form:
-        id = request.form["id"] #participationin id, voi olla et tää meni väärin mut olkoon nyt
         sql = "INSERT INTO participations (course_id, user_id) VALUES (:course_id, :user_id)"
         db.session.execute(sql, {"course_id":course_id, "user_id":user_id })
         db.session.commit()
-    return redirect("/participation/" + str(id))
+    return redirect("/participation/" + str(user_id))
 
-@app.route("/participation/<int:id>")
-def paritipation(id):
-    sql = "SELECT * FROM participations WHERE id=:id"
-    result = db.session.execute(sql, {"id":id})
-    participation_ids = result.fetchall()
-    return render_template("participation.html", participation_ids=participation_ids)
+@app.route("/participation/<int:user_id>")
+def participation(user_id):
+    sql = "SELECT id, course_id FROM participations WHERE user_id=:user_id"
+    result = db.session.execute(sql, {"user_id":user_id})
+    participation_data = result.fetchall()
+    #tässä kohtaa hae kurssien pvm:t, jotta ne voisi näyttää participation.html:ssä
+    # for data in participation data:
+    # data[0] = participation_id
+    # data[1] = course_id
+    return render_template("participation.html", participation_data=participation_data)
 
 
 
