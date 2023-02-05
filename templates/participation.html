@@ -1,9 +1,18 @@
-participation id, course id
+{% if participations %}
+
+You signed up for following periods of time:
 <hr>
 <ul>
-{% for data in participation_data %}
-<li> {{ data }}
+{% for participation in participations %}
+
+<li> Course {{ participation[0].strftime("%d.%m.%Y")  }} - {{ participation[1].strftime("%d.%m.%Y")  }}: you signed up for 
+    {{ participation[2].strftime("%d.%m.%Y")  }} - {{ participation[3].strftime("%d.%m.%Y")  }}
 {% endfor %}
+</li>
 </ul>
 <hr>
+
+{% else %}
+You have not signed up for any days.
+{% endif %}
 <a href="/">Go to start</a>

@@ -50,14 +50,13 @@ def course(id):
 
 @app.route("/signup/", methods=["POST"])
 def signup():
+    """If user chooses dates, put them in participations table"""
     course_id = request.form["id"]
     username = session["username"]
     sql = "SELECT id FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username": username})
     user_id = result.fetchone()[0]
-    #tässä vertaile päivämääriä, ja laita saapumispvm ja lähtöpvm tietokantaan
     if "participation" in request.form:
-
         participation_days = request.form.getlist("participation")
         arrival_day = participation_days[0]
         departure_day = participation_days[-1]
@@ -72,11 +71,19 @@ def participation(user_id):
     sql = "SELECT id, course_id, arrival_day, departure_day FROM participations WHERE user_id=:user_id"
     result = db.session.execute(sql, {"user_id":user_id})
     participation_data = result.fetchall()
-    #tässä kohtaa hae kurssien pvm:t, jotta ne voisi näyttää participation.html:ssä
-    # for data in participation data:
-    # data[0] = participation_id
-    # data[1] = course_id
-    return render_template("participation.html", participation_data=participation_data)
+    participations = []
+    for data in participation_data:
+        course_id = data[0]
+        arrival = data[2]
+        departure = data[3]
+        sql = "SELECT day_zero, day_eleven FROM courses WHERE id=:course_id"
+        result = db.session.execute(sql, {"course_id":course_id})
+        start_and_end = result.fetchone()
+        course_start = start_and_end[0]
+        course_end = start_and_end[1]
+        participation = (course_start, course_end, arrival, departure)
+        participations.append(participation)
+    return render_template("participation.html", participations=participations)
 
 
 
