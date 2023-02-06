@@ -1,10 +1,9 @@
 from flask import Flask
 from flask import redirect, render_template, request, session
 from os import getenv
-from werkzeug.security import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from os import getenv
-
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app = Flask(__name__)
@@ -24,15 +23,13 @@ def login():
     result = db.session.execute(sql, {"username": username})
     user = result.fetchone()    
     if not user:
-        return render_template("invalid.html")
+        return render_template("invalid.html", message="Invalid user name")
     else:
-        #return render_template("valid.html")
-        # hash_value = user.password
-        # if check_password_hash(hash_value, password):
-        session["username"] = username
-        return redirect("/")
-        # else:
-        #     return render_template("invalid.html")
+       
+        hash_value = user.password
+        if check_password_hash(hash_value, password):
+            session["username"] = username
+            return redirect("/")
 
 @app.route("/courses",methods=["GET"])
 def courses():
@@ -60,7 +57,6 @@ def signup():
         participation_days = request.form.getlist("participation")
         arrival_day = participation_days[0]
         departure_day = participation_days[-1]
-
         sql = "INSERT INTO participations (course_id, user_id, arrival_day, departure_day) VALUES (:course_id, :user_id, :arrival_day, :departure_day)"
         db.session.execute(sql, {"course_id":course_id, "user_id":user_id, "arrival_day":arrival_day, "departure_day": departure_day })
         db.session.commit()
@@ -86,7 +82,30 @@ def participation(user_id):
     return render_template("participation.html", participations=participations)
 
 
+@app.route("/register", methods=["POST", "GET"])
+def register():
+    if request.method == "GET":
+        return render_template("register.html")
+    if request.method == "POST":
+        username = request.form["username"]
+        if len(username) < 3 or len(username) > 20:
+            return render_template("error.html", message="Username should contain 3-20 characters")
 
+        password1 = request.form["password1"]
+        password2 = request.form["password2"]
+        if password1 != password2:
+            return render_template("invalid.html", message="Two different passwords were typed")
+        if len(password1) < 5:
+            return render_template("invalid.html", message="Password should contain 5 or more characters")
+        hash_value_pwd = generate_password_hash(password1)
+        try:
+            sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
+            db.session.execute(sql, {"username":username, "password":hash_value_pwd})
+            db.session.commit()
+        except Exception as e:
+            return render_template("invalid.html", message="Something went wrong: "+ str(e) )
+        session["username"] = username
+        return redirect("/")
 
 
 @app.route("/logout")

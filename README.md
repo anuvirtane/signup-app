@@ -1,6 +1,6 @@
 # Signup application for course setup and teardown
 
-In order to organise 10 day residential courses, volunteers are needed at rented course sites for setup and teardown. This webapp enables people to sign up for these activities, and admins to see who signed for what time.
+In order to organise 10 day residential courses, volunteers are needed at rented course sites for setup (starting two days before coures start) and teardown (during last two days of course). This page enables people to sign up for these activities, and admins to see who signed for what time.
 
 ## User roles
 
