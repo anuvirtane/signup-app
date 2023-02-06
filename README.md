@@ -85,11 +85,7 @@ Run application locally
 
 ## Test application
 
-Log in using credentials:
-
-    username: testuser
-
-At the moment, password is not necessary. It will be needed only later on.
+Register to be a user.
 
 Two courses have been added to database. You can sign up for them and view your signup info.
 
