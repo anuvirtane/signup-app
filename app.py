@@ -23,7 +23,7 @@ def login():
     result = db.session.execute(sql, {"username": username})
     user = result.fetchone()    
     if not user:
-        return render_template("invalid.html", message="Invalid user name")
+        return render_template("invalid.html", message="Invalid user name or password")
     else:
        
         hash_value = user.password
@@ -89,7 +89,7 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         if len(username) < 3 or len(username) > 20:
-            return render_template("error.html", message="Username should contain 3-20 characters")
+            return render_template("invalid.html", message="Username should contain 3-20 characters")
 
         password1 = request.form["password1"]
         password2 = request.form["password2"]
