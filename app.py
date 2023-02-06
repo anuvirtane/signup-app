@@ -23,13 +23,15 @@ def login():
     result = db.session.execute(sql, {"username": username})
     user = result.fetchone()    
     if not user:
-        return render_template("invalid.html", message="Invalid user name or password")
-    else:
-       
+        return render_template("invalid.html", message="Invalid user name")
+    else:    
         hash_value = user.password
         if check_password_hash(hash_value, password):
             session["username"] = username
             return redirect("/")
+        else:
+            return render_template("invalid.html", message="Invalid password")
+
 
 @app.route("/courses",methods=["GET"])
 def courses():
