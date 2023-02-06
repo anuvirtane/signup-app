@@ -5,7 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from os import getenv
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
@@ -31,7 +30,6 @@ def login():
             return redirect("/")
         else:
             return render_template("invalid.html", message="Invalid password")
-
 
 @app.route("/courses",methods=["GET"])
 def courses():
@@ -83,7 +81,6 @@ def participation(user_id):
         participations.append(participation)
     return render_template("participation.html", participations=participations)
 
-
 @app.route("/register", methods=["POST", "GET"])
 def register():
     if request.method == "GET":
@@ -108,7 +105,6 @@ def register():
             return render_template("invalid.html", message="Something went wrong: "+ str(e) )
         session["username"] = username
         return redirect("/")
-
 
 @app.route("/logout")
 def logout():
