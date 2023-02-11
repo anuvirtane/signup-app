@@ -23,6 +23,7 @@ def login():
         hash_value = user.password
         if check_password_hash(hash_value, password):
             session["username"] = username
+            session["user_id"] = user.id
             return redirect("/")
         else:
             return render_template("invalid.html", message="Invalid password")
