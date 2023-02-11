@@ -12,3 +12,9 @@ def get_course_by_id(id: int):
     result = db.session.execute(sql, {"id":id})
     course = result.fetchone()
     return course
+
+def get_course_dates(course_id):
+    sql = text("SELECT day_zero, day_eleven FROM courses WHERE id=:course_id")
+    result = db.session.execute(sql, {"course_id":course_id})
+    start_and_end = result.fetchone()
+    return start_and_end

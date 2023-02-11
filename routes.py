@@ -5,6 +5,7 @@ from flask import redirect, render_template, request, session
 from sqlalchemy.sql import text
 from werkzeug.security import check_password_hash, generate_password_hash
 import course_management
+import participation_management
 import user_management
 
 
@@ -43,31 +44,23 @@ def signup():
     """If user chooses dates, put them in participations table"""
     course_id = request.form["id"]
     username = session["username"]
-    sql = text("SELECT id FROM users WHERE username=:username")
-    result = db.session.execute(sql, {"username": username})
-    user_id = result.fetchone()[0]
+    user_id = user_management.get_user_id(username)
     if "participation" in request.form:
         participation_days = request.form.getlist("participation")
         arrival_day = participation_days[0]
         departure_day = participation_days[-1]
-        sql = text("INSERT INTO participations (course_id, user_id, arrival_day, departure_day) VALUES (:course_id, :user_id, :arrival_day, :departure_day)")
-        db.session.execute(sql, {"course_id":course_id, "user_id":user_id, "arrival_day":arrival_day, "departure_day": departure_day })
-        db.session.commit()
+        participation_management.add_participation(course_id, user_id, arrival_day, departure_day)
     return redirect("/participation/" + str(user_id))
 
 @app.route("/participation/<int:user_id>")
 def participation(user_id):
-    sql = text("SELECT id, course_id, arrival_day, departure_day FROM participations WHERE user_id=:user_id")
-    result = db.session.execute(sql, {"user_id":user_id})
-    participation_data = result.fetchall()
+    participation_data = participation_management.get_participations(user_id)
     participations = []
     for data in participation_data:
         course_id = data[0]
         arrival = data[2]
         departure = data[3]
-        sql = text("SELECT day_zero, day_eleven FROM courses WHERE id=:course_id")
-        result = db.session.execute(sql, {"course_id":course_id})
-        start_and_end = result.fetchone()
+        start_and_end = course_management.get_course_dates(course_id)
         course_start = start_and_end[0]
         course_end = start_and_end[1]
         participation = (course_start, course_end, arrival, departure)
@@ -91,12 +84,12 @@ def register():
             return render_template("invalid.html", message="Password should contain 5 or more characters")
         hash_value_pwd = generate_password_hash(password1)
         try:
-            sql = text("INSERT INTO users (username, password) VALUES (:username, :password)")
-            db.session.execute(sql, {"username":username, "password":hash_value_pwd})
-            db.session.commit()
+            user_management.create_user(username, hash_value_pwd)
         except Exception as e:
             return render_template("invalid.html", message="Something went wrong: "+ str(e) )
         session["username"] = username
+        user_id = user_management.get_user_id(username)
+        session["user_id"] = user_id
         return redirect("/")
 
 @app.route("/logout")
