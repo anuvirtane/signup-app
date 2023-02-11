@@ -4,6 +4,8 @@ from db import db
 from flask import redirect, render_template, request, session
 from sqlalchemy.sql import text
 from werkzeug.security import check_password_hash, generate_password_hash
+import course_management
+import user_management
 
 
 @app.route("/")
@@ -14,9 +16,7 @@ def index():
 def login():
     username = request.form["username"]
     password = request.form["password"]
-    sql = text("SELECT id, password FROM users WHERE username=:username")
-    result = db.session.execute(sql, {"username": username})
-    user = result.fetchone()    
+    user = user_management.get_user(username)
     if not user:
         return render_template("invalid.html", message="Invalid user name")
     else:    
@@ -30,16 +30,12 @@ def login():
 
 @app.route("/courses",methods=["GET"])
 def courses():
-    sql = text("SELECT id, day_minus_two, day_minus_one, day_zero, day_ten, day_eleven FROM courses ORDER BY id DESC")
-    result = db.session.execute(sql)
-    courses = result.fetchall()
+    courses = course_management.get_courses()
     return render_template("courses.html", courses=courses)
 
 @app.route("/course/<int:id>")
 def course(id):
-    sql = text("SELECT day_minus_two, day_minus_one, day_zero, day_ten, day_eleven FROM courses WHERE id=:id")
-    result = db.session.execute(sql, {"id":id})
-    course = result.fetchone()
+    course = course_management.get_course_by_id(id)
     return render_template("course.html", id=id, course=course)
 
 @app.route("/signup/", methods=["POST"])
