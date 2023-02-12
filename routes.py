@@ -49,6 +49,9 @@ def signup():
         participation_days = request.form.getlist("participation")
         arrival_day = participation_days[0]
         departure_day = participation_days[-1]
+        already_participating = participation_management.participation_exists(user_id, course_id)
+        if already_participating:
+            return render_template("already_participating.html", already_participating=already_participating)
         participation_management.add_participation(course_id, user_id, arrival_day, departure_day)
     return redirect("/participation/" + str(user_id))
 
