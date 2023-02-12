@@ -12,3 +12,9 @@ def get_participations(user_id: int):
     result = db.session.execute(sql, {"user_id":user_id})
     participation_data = result.fetchall()
     return participation_data
+
+def participation_exists(user_id, course_id):
+    sql = text("SELECT id, arrival_day, departure_day FROM participations WHERE user_id=:user_id AND course_id=:course_id")
+    result = db.session.execute(sql, {"user_id":user_id, "course_id":course_id})
+    participation_data = result.fetchone()
+    return participation_data
