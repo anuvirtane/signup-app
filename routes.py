@@ -5,6 +5,7 @@ from flask import redirect, render_template, request, session
 from sqlalchemy.sql import text
 from werkzeug.security import check_password_hash, generate_password_hash
 import course_management
+import lift_offer_management
 import participation_management
 import user_management
 
@@ -39,13 +40,31 @@ def course(id):
     course = course_management.get_course_by_id(id)
     return render_template("course.html", id=id, course=course)
 
-@app.route("/lift_offer/<int:participation_id>", methods=["GET"])
+@app.route("/lift_offer/<int:participation_id>", methods=["GET", "POST"])
 def lift_offer(participation_id):
-    user_id = session.get('user_id')
     participation = participation_management.get_participation(participation_id)
-    
-    return render_template("lift_offer.html", participation=participation)
-    #return render_template("invalid.html", message="Unable to fetch participation data")
+    if request.method == "GET":   
+        if participation:
+            return render_template("lift_offer.html", participation=participation)
+        return render_template("invalid.html", message="Unable to fetch participation data")
+    if request.method == "POST":
+        to_course = request.form["to_course"]
+        from_where = request.form["from_where"]
+        if len(from_where) < 3 or len(from_where) > 20:
+            return render_template("invalid.html", message="Starting point name should contain 3-20 characters")
+        from_course = request.form["from_course"]
+        course_id = request.form["course_id"]
+        to_where = request.form["to_where"]
+        if len(to_where) < 3 or len(to_where) > 20:
+            return render_template("invalid.html", message="Destination name should contain 3-20 characters")
+        user_id = session.get('user_id')
+        try:
+            lift_offer_management.create_lift(course_id, user_id, to_course, from_where, from_course, to_where)
+        except Exception as e:
+            return render_template("invalid.html", message="Something went wrong: "+ str(e) )
+        
+        return redirect("/lift_offered/")
+
 
 @app.route("/lifts/<int:participation_id>")
 def lifts(participation_id):
@@ -56,8 +75,8 @@ def lifts(participation_id):
 def signup():
     """If user chooses dates, put them in participations table"""
     course_id = request.form["id"]
-    username = session["username"]
-    user_id = user_management.get_user_id(username)
+    username = session.get('username')
+    user_id = session.get('user_id')
     if "participation" in request.form:
         participation_days = request.form.getlist("participation")
         arrival_day = participation_days[0]
