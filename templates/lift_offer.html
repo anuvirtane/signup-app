@@ -1,2 +1,9 @@
-moiccu!
-{{ participation }}
+
+
+<form action="/lift_offer" method="post">
+    Offer a lift to course site on {{ participation[2].strftime("%d.%m.%Y") }} from <br><input type="text" name="from_where" minlength="3" maxlength="30">
+    <p>
+    Offer a lift from course site on {{ participation[3].strftime("%d.%m.%Y") }} to <br><input type="text" name="to_where" minlength="3" maxlength="30">
+    <p>
+    <input type="submit" value="Offer lift">
+    </form>
