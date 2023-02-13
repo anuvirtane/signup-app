@@ -7,8 +7,10 @@ You signed up for following periods of time:
 
 <li> Course {{ participation[0].strftime("%d.%m.%Y")  }} - {{ participation[1].strftime("%d.%m.%Y")  }}: you signed up for 
     {{ participation[2].strftime("%d.%m.%Y")  }} - {{ participation[3].strftime("%d.%m.%Y")  }}
-{% endfor %}
+    <br>
+    <a href="/lifts/{{ participation[4] }}">Offer or request lift</a>
 </li>
+{% endfor %}
 </ul>
 <hr>
 

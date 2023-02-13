@@ -39,6 +39,11 @@ def course(id):
     course = course_management.get_course_by_id(id)
     return render_template("course.html", id=id, course=course)
 
+@app.route("/lifts/<int:id>")
+def lifts(id):
+    participation = participation_management.get_participation(id)
+    return render_template("lifts.html", participation=participation)
+
 @app.route("/signup/", methods=["POST"])
 def signup():
     """If user chooses dates, put them in participations table"""
@@ -60,13 +65,14 @@ def participation(user_id):
     participation_data = participation_management.get_participations(user_id)
     participations = []
     for data in participation_data:
-        course_id = data[0]
+        participation_id = data[0]
+        course_id = data[1]
         arrival = data[2]
         departure = data[3]
         start_and_end = course_management.get_course_dates(course_id)
         course_start = start_and_end[0]
         course_end = start_and_end[1]
-        participation = (course_start, course_end, arrival, departure)
+        participation = (course_start, course_end, arrival, departure, participation_id)
         participations.append(participation)
     return render_template("participation.html", participations=participations)
 

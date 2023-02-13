@@ -7,6 +7,12 @@ def add_participation(course_id: int, user_id: int, arrival_day: any, departure_
     db.session.commit()
     return True
 
+def get_participation(id: int):
+    sql = text("SELECT course_id, user_id, arrival_day, departure_day FROM participations WHERE id=:id")
+    result = db.session.execute(sql, {"id":id})
+    participation = result.fetchone()
+    return participation
+
 def get_participations(user_id: int):
     sql = text("SELECT id, course_id, arrival_day, departure_day FROM participations WHERE user_id=:user_id")
     result = db.session.execute(sql, {"user_id":user_id})
