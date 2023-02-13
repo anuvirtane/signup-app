@@ -29,7 +29,7 @@ def login():
         else:
             return render_template("invalid.html", message="Invalid password")
 
-@app.route("/courses",methods=["GET"])
+@app.route("/courses", methods=["GET"])
 def courses():
     courses = course_management.get_courses()
     return render_template("courses.html", courses=courses)
@@ -39,9 +39,17 @@ def course(id):
     course = course_management.get_course_by_id(id)
     return render_template("course.html", id=id, course=course)
 
-@app.route("/lifts/<int:id>")
-def lifts(id):
-    participation = participation_management.get_participation(id)
+@app.route("/lift_offer/<int:participation_id>", methods=["GET"])
+def lift_offer(participation_id):
+    user_id = session.get('user_id')
+    participation = participation_management.get_participation(participation_id)
+    
+    return render_template("lift_offer.html", participation=participation)
+    #return render_template("invalid.html", message="Unable to fetch participation data")
+
+@app.route("/lifts/<int:participation_id>")
+def lifts(participation_id):
+    participation = participation_management.get_participation(participation_id)
     return render_template("lifts.html", participation=participation)
 
 @app.route("/signup/", methods=["POST"])
@@ -54,7 +62,7 @@ def signup():
         participation_days = request.form.getlist("participation")
         arrival_day = participation_days[0]
         departure_day = participation_days[-1]
-        already_participating = participation_management.participation_exists(user_id, course_id)
+        already_participating = participation_management.participation_by_user_and_course(user_id, course_id)
         if already_participating:
             return render_template("already_participating.html", already_participating=already_participating)
         participation_management.add_participation(course_id, user_id, arrival_day, departure_day)

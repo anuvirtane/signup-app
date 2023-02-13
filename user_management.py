@@ -19,3 +19,5 @@ def get_user_id(username: str):
     user_id = result.fetchone()[0]
     return user_id
 
+
+
