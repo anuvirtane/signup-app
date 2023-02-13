@@ -8,7 +8,7 @@ def add_participation(course_id: int, user_id: int, arrival_day: any, departure_
     return True
 
 def get_participation(id: int):
-    sql = text("SELECT course_id, user_id, arrival_day, departure_day FROM participations WHERE id=:id")
+    sql = text("SELECT course_id, arrival_day, departure_day FROM participations WHERE id=:id")
     result = db.session.execute(sql, {"id":id})
     participation = result.fetchone()
     return participation
