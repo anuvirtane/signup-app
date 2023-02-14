@@ -40,30 +40,30 @@ def course(id):
     course = course_management.get_course_by_id(id)
     return render_template("course.html", id=id, course=course)
 
-@app.route("/lift_offer/<int:participation_id>", methods=["GET", "POST"])
+@app.route("/lift_offer/<int:participation_id>", methods=["GET"])
 def lift_offer(participation_id):
     participation = participation_management.get_participation(participation_id)
-    if request.method == "GET":   
-        if participation:
-            return render_template("lift_offer.html", participation=participation)
-        return render_template("invalid.html", message="Unable to fetch participation data")
-    if request.method == "POST":
-        to_course = request.form["to_course"]
-        from_where = request.form["from_where"]
-        if len(from_where) < 3 or len(from_where) > 20:
-            return render_template("invalid.html", message="Starting point name should contain 3-20 characters")
-        from_course = request.form["from_course"]
-        course_id = request.form["course_id"]
-        to_where = request.form["to_where"]
-        if len(to_where) < 3 or len(to_where) > 20:
-            return render_template("invalid.html", message="Destination name should contain 3-20 characters")
-        user_id = session.get('user_id')
-        try:
-            lift_offer_management.create_lift(course_id, user_id, to_course, from_where, from_course, to_where)
-        except Exception as e:
-            return render_template("invalid.html", message="Something went wrong: "+ str(e) )
-        
-        return redirect("/lift_offered/")
+    if participation:
+        return render_template("lift_offer.html", participation=participation)
+    return render_template("invalid.html", message="Unable to fetch participation data")
+
+@app.route("/send_lift_offer/", methods=["POST"])
+def send_lift_offer():
+    to_course = request.form["to_course"]
+    from_where = request.form["from_where"]
+    if len(from_where) < 3 or len(from_where) > 20:
+        return render_template("invalid.html", message="Starting point name should contain 3-20 characters")
+    from_course = request.form["from_course"]
+    course_id = request.form["course_id"]
+    to_where = request.form["to_where"]
+    if len(to_where) < 3 or len(to_where) > 20:
+        return render_template("invalid.html", message="Destination name should contain 3-20 characters")
+    user_id = session.get('user_id')
+    try:
+        lift_offer_management.create_lift(course_id, user_id, to_course, from_where, from_course, to_where)
+    except Exception as e:
+        return render_template("invalid.html", message="Something went wrong: "+ str(e) )  
+    return render_template("/lift_offered.html")
 
 
 @app.route("/lifts/<int:participation_id>")
