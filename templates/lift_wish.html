@@ -1,0 +1,12 @@
+<form action="/send_lift_wish" method="post">
+    Wish a lift to course site on {{ participation[2].strftime("%d.%m.%Y") }} from <br><input type="text" name="from_where" minlength="3" maxlength="30">
+    <p>
+    Wish a lift from course site on {{ participation[3].strftime("%d.%m.%Y") }} to <br><input type="text" name="to_where" minlength="3" maxlength="30">
+    <p>
+    <input type="submit" value="Wish lift">
+    <input type="hidden" name="course_id" value="{{ participation[1] }}">
+    <input type="hidden" name="to_course" value="{{ participation[2] }}">
+    <input type="hidden" name="from_course" value="{{ participation[3] }}">
+    </form>
+
+    <a href="/">Back to start page</a>

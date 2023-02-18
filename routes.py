@@ -7,6 +7,7 @@ from sqlalchemy.sql import text
 from werkzeug.security import check_password_hash, generate_password_hash
 import course_management
 import lift_offer_management
+import lift_wish_management
 import participation_management
 import user_management
 
@@ -48,6 +49,13 @@ def lift_offer(participation_id):
         return render_template("lift_offer.html", participation=participation)
     return render_template("invalid.html", message="Unable to fetch participation data")
 
+@app.route("/lift_wish/<int:participation_id>", methods=["GET"])
+def lift_wish(participation_id):
+    participation = participation_management.get_participation(participation_id)
+    if participation:
+        return render_template("lift_wish.html", participation=participation)
+    return render_template("invalid.html", message="Unable to fetch participation data")
+
 @app.route("/send_lift_offer/", methods=["POST"])
 def send_lift_offer():
     to_course = request.form["to_course"]
@@ -67,6 +75,24 @@ def send_lift_offer():
     course = course_management.get_course_by_id(course_id)
     return render_template("/lift_offered.html", course=course, to_course=datetime.strptime(to_course, '%Y-%m-%d'), from_where=from_where, from_course=datetime.strptime(from_course,'%Y-%m-%d'), to_where=to_where)
 
+@app.route("/send_lift_wish/", methods=["POST"])
+def send_lift_wish():
+    to_course = request.form["to_course"]
+    from_where = request.form["from_where"]
+    if len(from_where) < 3 or len(from_where) > 20:
+        return render_template("invalid.html", message="Starting point name should contain 3-20 characters")
+    from_course = request.form["from_course"]
+    course_id = request.form["course_id"]
+    to_where = request.form["to_where"]
+    if len(to_where) < 3 or len(to_where) > 20:
+        return render_template("invalid.html", message="Destination name should contain 3-20 characters")
+    user_id = session.get('user_id')
+    try:
+        lift_wish_management.create_lift_wish(course_id, user_id, to_course, from_where, from_course, to_where)
+    except Exception as e:
+        return render_template("invalid.html", message="Something went wrong: "+ str(e) )
+    course = course_management.get_course_by_id(course_id)
+    return render_template("/lift_wished.html", course=course, to_course=datetime.strptime(to_course, '%Y-%m-%d'), from_where=from_where, from_course=datetime.strptime(from_course,'%Y-%m-%d'), to_where=to_where)
 
 @app.route("/lifts/<int:participation_id>")
 def lifts(participation_id):
