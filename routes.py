@@ -1,6 +1,7 @@
 
 from app import app
 from db import db
+from datetime import datetime
 from flask import redirect, render_template, request, session
 from sqlalchemy.sql import text
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -62,8 +63,9 @@ def send_lift_offer():
     try:
         lift_offer_management.create_lift(course_id, user_id, to_course, from_where, from_course, to_where)
     except Exception as e:
-        return render_template("invalid.html", message="Something went wrong: "+ str(e) )  
-    return render_template("/lift_offered.html")
+        return render_template("invalid.html", message="Something went wrong: "+ str(e) )
+    course = course_management.get_course_by_id(course_id)
+    return render_template("/lift_offered.html", course=course, to_course=datetime.strptime(to_course, '%Y-%m-%d'), from_where=from_where, from_course=datetime.strptime(from_course,'%Y-%m-%d'), to_where=to_where)
 
 
 @app.route("/lifts/<int:participation_id>")
