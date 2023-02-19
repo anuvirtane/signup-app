@@ -27,7 +27,6 @@ Basic users can sign up for course setup and teardown and modify their own signu
 ### Login page
 - Login to access all other functionality
 
-
 ### Register page
 - Register to be a basic user, get rights to login
 
@@ -72,6 +71,8 @@ Run application locally
 Register to be a user.
 
 Two courses have been added to database. You can sign up for them and view your signup info. You can also offer or request lifts for the days you signed up for.
+
+At the moment modifying signup or lift info is not yet possible. Also viewing lift info is not possible yet.
 
 
 ## Database diagram 19.2.23: five tables
