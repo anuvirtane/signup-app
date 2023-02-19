@@ -11,3 +11,10 @@ def create_lift(course_id: int, driver_id: int, to_course: str, from_where: str,
         return False
     return True
 
+def get_lift_offer_by_course_id_and_driver_id(course_id: int, driver_id):
+    sql = text("SELECT course_id, driver_id, to_course, from_where, from_course, to_where FROM lift_offers WHERE driver_id=:driver_id AND course_id=:course_id")
+    result = db.session.execute(sql, {"course_id":course_id, "driver_id":driver_id})
+    offer_data = result.fetchone()
+    return offer_data
+
+

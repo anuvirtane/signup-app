@@ -68,6 +68,12 @@ def send_lift_offer():
     if len(to_where) < 3 or len(to_where) > 20:
         return render_template("invalid.html", message="Destination name should contain 3-20 characters")
     user_id = session.get('user_id')
+    existing_offer = lift_offer_management.get_lift_offer_by_course_id_and_driver_id(course_id, user_id)
+    if existing_offer:
+        return render_template("existing_lift_offer.html", existing_offer=existing_offer)
+    existing_wish = lift_wish_management.get_lift_wish_by_course_id_and_wisher_id(course_id, user_id)
+    if existing_wish:
+        return render_template("existing_lift_wish.html", existing_wish=existing_wish)
     try:
         lift_offer_management.create_lift(course_id, user_id, to_course, from_where, from_course, to_where)
     except Exception as e:
@@ -87,6 +93,12 @@ def send_lift_wish():
     if len(to_where) < 3 or len(to_where) > 20:
         return render_template("invalid.html", message="Destination name should contain 3-20 characters")
     user_id = session.get('user_id')
+    existing_wish = lift_wish_management.get_lift_wish_by_course_id_and_wisher_id(course_id, user_id)
+    if existing_wish:
+        return render_template("existing_lift_wish.html", existing_wish=existing_wish)
+    existing_offer = lift_offer_management.get_lift_offer_by_course_id_and_driver_id(course_id, user_id)
+    if existing_offer:
+        return render_template("existing_lift_offer.html", existing_offer=existing_offer)
     try:
         lift_wish_management.create_lift_wish(course_id, user_id, to_course, from_where, from_course, to_where)
     except Exception as e:
