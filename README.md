@@ -4,8 +4,6 @@ In order to organise 10 day residential courses, volunteers are needed at rented
 
 ## User roles
 
-### Admin
-Admins can add and modify course data
 ### Basic user
 Basic users can sign up for course setup and teardown and modify their own signup information
 
