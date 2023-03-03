@@ -77,6 +77,6 @@ Two courses have been added to database. You can sign up for them and view your 
 At the moment modifying signup or lift info is not yet possible. Also viewing lift info is not possible yet.
 
 
-## Database diagram 19.2.23: five tables
+## Database diagram 19.2.23
 
 ![dd-diagram-preliminary](images/dbdiagram_190223.png)
