@@ -66,6 +66,8 @@ Run application locally
 
     $ flask run
 
+Note: Chrome browser shows validators correctly on Register page, Firefox does not.
+
 ## Test application
 
 Register to be a user.
