@@ -9,6 +9,7 @@
     <input type="hidden" name="course_id" value="{{ participation[1] }}">
     <input type="hidden" name="to_course" value="{{ participation[2] }}">
     <input type="hidden" name="from_course" value="{{ participation[3] }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
 
     <a href="/">Back to start page</a>

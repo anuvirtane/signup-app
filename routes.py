@@ -2,9 +2,11 @@
 from app import app
 from db import db
 from datetime import datetime
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, abort
+from form_validators import RegistrationForm
 from sqlalchemy.sql import text
 from werkzeug.security import check_password_hash, generate_password_hash
+import secrets
 import course_management
 import lift_offer_management
 import lift_wish_management
@@ -20,6 +22,7 @@ def index():
 def login():
     username = request.form["username"]
     password = request.form["password"]
+    session["csrf_token"] = secrets.token_hex(16)
     user = user_management.get_user(username)
     if not user:
         return render_template("invalid.html", message="Invalid user name")
@@ -58,6 +61,8 @@ def lift_wish(participation_id):
 
 @app.route("/send_lift_offer/", methods=["POST"])
 def send_lift_offer():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     to_course = request.form["to_course"]
     from_where = request.form["from_where"]
     if len(from_where) < 3 or len(from_where) > 20:
@@ -83,6 +88,8 @@ def send_lift_offer():
 
 @app.route("/send_lift_wish/", methods=["POST"])
 def send_lift_wish():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     to_course = request.form["to_course"]
     from_where = request.form["from_where"]
     if len(from_where) < 3 or len(from_where) > 20:
@@ -117,6 +124,8 @@ def signup():
     course_id = request.form["id"]
     username = session.get('username')
     user_id = session.get('user_id')
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     if "participation" in request.form:
         participation_days = request.form.getlist("participation")
         arrival_day = participation_days[0]
@@ -145,19 +154,13 @@ def participation(user_id):
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
+    form = RegistrationForm(request.form)
     if request.method == "GET":
-        return render_template("register.html")
-    if request.method == "POST":
-        username = request.form["username"]
-        if len(username) < 3 or len(username) > 20:
-            return render_template("invalid.html", message="Username should contain 3-20 characters")
-
-        password1 = request.form["password1"]
-        password2 = request.form["password2"]
-        if password1 != password2:
-            return render_template("invalid.html", message="Two different passwords were typed")
-        if len(password1) < 5:
-            return render_template("invalid.html", message="Password should contain 5 or more characters")
+        return render_template("register.html", form=form)
+    
+    if request.method == "POST" and form.validate():
+        username = form.username.data
+        password1 = form.password1.data
         hash_value_pwd = generate_password_hash(password1)
         try:
             user_management.create_user(username, hash_value_pwd)
@@ -166,6 +169,7 @@ def register():
         session["username"] = username
         user_id = user_management.get_user_id(username)
         session["user_id"] = user_id
+        session["csrf_token"] = secrets.token_hex(16)
         return redirect("/")
 
 @app.route("/logout")

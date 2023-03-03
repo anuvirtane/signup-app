@@ -11,6 +11,7 @@ course: {{ course.day_zero.strftime("%d.%m.%Y") }} - {{ course.day_eleven.strfti
     <p>
     <input type="submit" value="Send">
     <input type="hidden" name="id" value="{{ id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
     <hr>
     <a href="/courses">All courses</a>

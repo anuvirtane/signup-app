@@ -1,5 +1,7 @@
-<form action="/register" method="post">
-    User name: <br><input type="text" name="username" minlength="3" maxlength="20">
+<!-- <form action="/register" method="post">
+  
+    User name: <br><input type="text" name="username">
+    
     <p>
     Password: <br><input type="password" name="password1">
     <p>
@@ -9,4 +11,19 @@
     </form>
     
     <p>
+   -->
+
+
+    {% from "_formhelpers.html" import render_field %}
+    <form action="/register" method="post">
+        
+      <dl>
+        {{ render_field(form.username) }}
+        {{ render_field(form.password1) }}
+   
+
+      </dl>
+      <p><input type="submit" value="Create credentials">
+    </form>
+
     <a href="/">Back to start page</a>
