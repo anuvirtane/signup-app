@@ -1,0 +1,9 @@
+<!doctype html>
+<title>SignupApp - {% block title %}{% endblock %}</title>
+<h1>Signup</h1>
+<a href="/">Front page</a>
+<a href="/courses">View all courses</a>
+<a href="/participation/{{ session.user_id }}">View my participations</a>
+<a href="/logout">Log out</a>
+<hr>
+{% block content %}{% endblock %}

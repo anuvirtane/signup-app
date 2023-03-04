@@ -1,9 +1,16 @@
+
+
 {% if session.username %}
+
+{% extends "layout.html" %}
+{% block title %}Front page{% endblock %}
+{% block content %}
 <p>You are logged in as {{ session.username }}</p>
-<a href="/courses">View courses</a>
-<a href="/participation/{{ session.user_id }}">View my participations</a>
-<a href="/logout">Log out</a>
+
+
+{% endblock %}
 {% else %}
+<h1>SignupApp</h1>
 Log in
 <form action="/login" method="POST">
 <p>Username:<br>

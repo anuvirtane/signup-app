@@ -1,3 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Course{% endblock %}
+{% block content %}
+
 
 Tick the days you will participate in setup and/or teardown of 
 course: {{ course.day_zero.strftime("%d.%m.%Y") }} - {{ course.day_eleven.strftime("%d.%m.%Y") }} 
@@ -16,3 +20,4 @@ course: {{ course.day_zero.strftime("%d.%m.%Y") }} - {{ course.day_eleven.strfti
     <hr>
     <a href="/courses">All courses</a>
     <a href="/logout">Log out</a>
+    {% endblock %}

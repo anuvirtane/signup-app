@@ -1,7 +1,11 @@
-
+{% extends "layout.html" %}
+{% block title %}Courses{% endblock %}
+{% block content %}
 <hr>
 {% for course in courses %}
 {{ course.day_zero.strftime("%d.%m.%Y") }} - {{ course.day_eleven.strftime("%d.%m.%Y") }} 
 <a href="/course/{{ course.id }}">View course details and sign up</a>  <br>
 <hr>
 {% endfor %}
+
+{% endblock %}

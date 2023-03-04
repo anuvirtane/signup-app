@@ -1,3 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Participations{% endblock %}
+{% block content %}
+
 {% if participations %}
 
 You signed up for following periods of time:
@@ -18,3 +22,5 @@ You signed up for following periods of time:
 You have not signed up for any days.
 {% endif %}
 <a href="/">Go to start</a>
+
+{% endblock %}
