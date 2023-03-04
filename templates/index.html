@@ -1,15 +1,20 @@
 
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
+<div class="container bg-info">
 {% if session.username %}
 
 {% extends "layout.html" %}
 {% block title %}Front page{% endblock %}
 {% block content %}
 <p>You are logged in as {{ session.username }}</p>
-
+</div>
 
 {% endblock %}
 {% else %}
+
 <h1>SignupApp</h1>
 Log in
 <form action="/login" method="POST">
@@ -17,9 +22,10 @@ Log in
 <input type="text" name="username"></p>
 <p>Password:<br>
 <input type="password" name="password"></p>
-<input type="submit" value="Log in">
+<input class="btn btn-light" type="submit" value="Log in">
 </form>
 
-<a href="/register">Register</a>
+<a class="badge badge-info" href="/register">Register</a>
+</div>
 {% endif %}
 

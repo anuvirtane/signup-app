@@ -1,3 +1,8 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+<div class="container bg-info">
 {% extends "layout.html" %}
 {% block title %}Wish a lift{% endblock %}
 {% block content %}
@@ -7,7 +12,7 @@
     <p>
     Wish a lift from course site on {{ participation[3].strftime("%d.%m.%Y") }} to <br><input type="text" name="to_where" minlength="3" maxlength="30">
     <p>
-    <input type="submit" value="Wish lift">
+    <input class="btn btn-light" type="submit" value="Wish lift">
     <input type="hidden" name="course_id" value="{{ participation[1] }}">
     <input type="hidden" name="to_course" value="{{ participation[2] }}">
     <input type="hidden" name="from_course" value="{{ participation[3] }}">
@@ -17,3 +22,4 @@
    
 
     {% endblock %}
+</div>

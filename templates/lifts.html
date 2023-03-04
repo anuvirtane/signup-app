@@ -1,10 +1,17 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+<div class="container bg-info">
+
 {% extends "layout.html" %}
 {% block title %}Lifts{% endblock %}
 {% block content %}
 
 You will be arriving on: {{ participation[2].strftime("%d.%m.%Y") }}
 You will be leaving on: {{ participation[3].strftime("%d.%m.%Y") }}
-<a href="/lift_offer/{{ participation[0] }}">Offer lift on these days</a>
-<a href="/lift_wish/{{ participation[0] }}">Request lift on these days</a>
+<a class="badge badge-info" href="/lift_offer/{{ participation[0] }}">Offer lift on these days</a>
+<a class="badge badge-info" href="/lift_wish/{{ participation[0] }}">Request lift on these days</a>
 
 {% endblock %}
+</div>

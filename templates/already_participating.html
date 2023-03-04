@@ -1,3 +1,9 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+<div class="container bg-info">
+
 {% extends "layout.html" %}
 {% block title %}Participation exists{% endblock %}
 {% block content %}
@@ -6,5 +12,6 @@ You're already participating on this course:
 
 {{ already_participating.arrival_day.strftime("%d.%m.%Y") }} - {{ already_participating.departure_day.strftime("%d.%m.%Y") }}
 
-<a href="/courses">View courses</a>
+
 {% endblock %}
+</div>

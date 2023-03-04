@@ -1,11 +1,18 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+<div class="container bg-info">
+
 {% extends "layout.html" %}
 {% block title %}Courses{% endblock %}
 {% block content %}
 <hr>
 {% for course in courses %}
 {{ course.day_zero.strftime("%d.%m.%Y") }} - {{ course.day_eleven.strftime("%d.%m.%Y") }} 
-<a href="/course/{{ course.id }}">View course details and sign up</a>  <br>
+<a class="badge badge-info" href="/course/{{ course.id }}">View course details and sign up</a>  <br>
 <hr>
 {% endfor %}
 
 {% endblock %}
+</div>

@@ -1,3 +1,8 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+<div class="container bg-info">
 {% extends "layout.html" %}
 {% block title %}Participations{% endblock %}
 {% block content %}
@@ -12,7 +17,7 @@ You signed up for following periods of time:
 <li> Course {{ participation[0].strftime("%d.%m.%Y")  }} - {{ participation[1].strftime("%d.%m.%Y")  }}: you signed up for 
     {{ participation[2].strftime("%d.%m.%Y")  }} - {{ participation[3].strftime("%d.%m.%Y")  }}
     <br>
-    <a href="/lifts/{{ participation[4] }}">Offer or request lift</a>
+    <a class="badge badge-info" href="/lifts/{{ participation[4] }}">Offer or request lift</a>
 </li>
 {% endfor %}
 </ul>
@@ -23,3 +28,4 @@ You have not signed up for any days.
 {% endif %}
 
 {% endblock %}
+</div>

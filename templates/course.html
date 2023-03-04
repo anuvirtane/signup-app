@@ -1,3 +1,9 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+<div class="container bg-info">
+
 {% extends "layout.html" %}
 {% block title %}Course{% endblock %}
 {% block content %}
@@ -13,10 +19,12 @@ course: {{ course.day_zero.strftime("%d.%m.%Y") }} - {{ course.day_eleven.strfti
     <input type="checkbox" name="participation" value="{{ workday.strftime('%d.%m.%Y') }}">  {{ workday.strftime('%d.%m.%Y') }} <br>
     {% endfor %}
     <p>
-    <input type="submit" value="Send">
+    <input class="btn btn-light" type="submit" value="Send">
     <input type="hidden" name="id" value="{{ id }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
     <hr>
   
     {% endblock %}
+
+</div>
