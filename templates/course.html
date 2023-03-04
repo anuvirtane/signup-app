@@ -18,6 +18,5 @@ course: {{ course.day_zero.strftime("%d.%m.%Y") }} - {{ course.day_eleven.strfti
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
     <hr>
-    <a href="/courses">All courses</a>
-    <a href="/logout">Log out</a>
+  
     {% endblock %}
